@@ -98,7 +98,7 @@ const FormularioCandidato = () => {
             Registrar Candidato
           </h1>
           <form onSubmit={handleSubmit} className="space-y-8">
-            {/* Datos personales */}
+           
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <input
                 name="nombre"
@@ -131,7 +131,7 @@ const FormularioCandidato = () => {
               />
             </div>
 
-            {/* Educación */}
+           
             <div>
               <h2 className="text-lg font-bold text-gray-800 mb-4">
                 Educación
@@ -166,7 +166,7 @@ const FormularioCandidato = () => {
                     type="number"
                     className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
                   />
-                  {index > 0 && ( // El botón de eliminar solo aparece para entradas adicionales
+                  {index > 0 && ( 
                     <button
                       type="button"
                       onClick={() => handleDelete("educacion", index)}
@@ -186,7 +186,7 @@ const FormularioCandidato = () => {
               </button>
             </div>
 
-            {/* Experiencia laboral */}
+          
             <div>
               <h2 className="text-lg font-bold text-gray-800 mb-4">
                 Experiencia Laboral
@@ -238,7 +238,7 @@ const FormularioCandidato = () => {
                     required
                     className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 col-span-2"
                   />
-                  {index > 0 && ( // El botón de eliminar solo aparece para entradas adicionales
+                  {index > 0 && ( 
                     <button
                       type="button"
                       onClick={() => handleDelete("experiencia", index)}
@@ -258,7 +258,6 @@ const FormularioCandidato = () => {
               </button>
             </div>
 
-            {/* Botón de guardar */}
             <button
               type="submit"
               className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition"
