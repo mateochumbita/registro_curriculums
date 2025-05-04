@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { validarFormulario } from "../services/validacionesFormularios";
 import BarraNavegacion from "./BarraNavegacion";
+import { FaTrash } from "react-icons/fa"; // Importamos el ícono de basura
 
 const FormularioCandidato = () => {
   const navigate = useNavigate();
@@ -66,6 +67,14 @@ const FormularioCandidato = () => {
     });
   };
 
+  const handleDelete = (section, index) => {
+    if (formulario[section].length > 1) {
+      const updatedSection = [...formulario[section]];
+      updatedSection.splice(index, 1);
+      setFormulario({ ...formulario, [section]: updatedSection });
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const errores = validarFormulario(formulario);
@@ -89,7 +98,7 @@ const FormularioCandidato = () => {
             Registrar Candidato
           </h1>
           <form onSubmit={handleSubmit} className="space-y-8">
-       
+            {/* Datos personales */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <input
                 name="nombre"
@@ -122,7 +131,7 @@ const FormularioCandidato = () => {
               />
             </div>
 
-       
+            {/* Educación */}
             <div>
               <h2 className="text-lg font-bold text-gray-800 mb-4">
                 Educación
@@ -130,7 +139,7 @@ const FormularioCandidato = () => {
               {formulario.educacion.map((edu, index) => (
                 <div
                   key={index}
-                  className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4"
+                  className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 items-center"
                 >
                   <input
                     name="titulo"
@@ -157,6 +166,15 @@ const FormularioCandidato = () => {
                     type="number"
                     className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
                   />
+                  {index > 0 && ( // El botón de eliminar solo aparece para entradas adicionales
+                    <button
+                      type="button"
+                      onClick={() => handleDelete("educacion", index)}
+                      className="text-red-600 hover:text-red-800 transition"
+                    >
+                      <FaTrash />
+                    </button>
+                  )}
                 </div>
               ))}
               <button
@@ -168,7 +186,7 @@ const FormularioCandidato = () => {
               </button>
             </div>
 
-
+            {/* Experiencia laboral */}
             <div>
               <h2 className="text-lg font-bold text-gray-800 mb-4">
                 Experiencia Laboral
@@ -176,7 +194,7 @@ const FormularioCandidato = () => {
               {formulario.experiencia.map((exp, index) => (
                 <div
                   key={index}
-                  className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4"
+                  className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 items-center"
                 >
                   <input
                     name="empleador"
@@ -220,6 +238,15 @@ const FormularioCandidato = () => {
                     required
                     className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 col-span-2"
                   />
+                  {index > 0 && ( // El botón de eliminar solo aparece para entradas adicionales
+                    <button
+                      type="button"
+                      onClick={() => handleDelete("experiencia", index)}
+                      className="text-red-600 hover:text-red-800 transition"
+                    >
+                      <FaTrash />
+                    </button>
+                  )}
                 </div>
               ))}
               <button
@@ -231,7 +258,7 @@ const FormularioCandidato = () => {
               </button>
             </div>
 
-   
+            {/* Botón de guardar */}
             <button
               type="submit"
               className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition"
