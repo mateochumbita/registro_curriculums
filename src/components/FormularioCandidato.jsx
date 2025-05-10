@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { validarFormulario } from "../services/validacionesFormularios";
 import BarraNavegacion from "./BarraNavegacion";
-import { FaTrash } from "react-icons/fa"; // Importamos el ícono de basura
+import { FaTrash } from "react-icons/fa";
 
 const FormularioCandidato = () => {
   const navigate = useNavigate();
@@ -28,17 +28,23 @@ const FormularioCandidato = () => {
 
     if (name === "foto") {
       const file = files[0];
-      if (file && !file.type.startsWith("image/")) {
-        alert(
-          "Por favor, selecciona un archivo de imagen válido (jpg, png, etc.)."
-        );
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = () => {
-        setFormulario({ ...formulario, foto: reader.result });
-      };
       if (file) {
+        if (!file.type.startsWith("image/")) {
+          alert(
+            "Por favor, selecciona un archivo de imagen válido (jpg, png, etc.)."
+          );
+          e.target.value = ""; 
+          return;
+        }
+        if (file.size > 100 * 1024) { // 100 KB = 100 * 1024 bytes
+          alert("El tamaño de la imagen no debe superar 100 KB.");
+          e.target.value = ""; 
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = () => {
+          setFormulario({ ...formulario, foto: reader.result });
+        };
         reader.readAsDataURL(file);
       }
     } else if (section) {
@@ -83,9 +89,11 @@ const FormularioCandidato = () => {
       const nuevo = { ...formulario, id: Date.now() };
       curriculums.push(nuevo);
       localStorage.setItem("curriculums", JSON.stringify(curriculums));
+      alert("CV añadido exitosamente.");
       navigate("/lista");
     } else {
-      alert("Errores: " + errores.join(", "));
+      console.error("Errores en el formulario:", errores);
+      alert("Errores encontrados. Por favor, revisa la consola para más detalles.");
     }
   };
 
